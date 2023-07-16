@@ -22,9 +22,7 @@ func main() {
 			numbers[i] = n
 		}
 
-		var a = numbers[1] >= numbers[2] && numbers[0] <= numbers[3]
-		var b = numbers[0] <= numbers[3] && numbers[1] >= numbers[2]
-		if a || b {
+		if numbers[1] >= numbers[2] && numbers[0] <= numbers[3] {
 			score++
 		}
 	}
