@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
 
 type Stack struct {
@@ -21,22 +20,9 @@ func (s *Stack) Pop() rune {
 	return value
 }
 
-func (s *Stack) String() string {
-	var b strings.Builder
-	b.Grow(len(s.Crates) * 4)
-	for _, c := range s.Crates {
-		fmt.Fprintf(&b, "[%c] ", c)
-	}
-	return b.String()
-}
-
 func main() {
 	var s = bufio.NewScanner(os.Stdin)
 	var stacks []Stack = parseStacks(s)
-	for _, stack := range stacks {
-		fmt.Println(stack.String())
-	}
-	fmt.Println()
 
 	for s.Scan() {
 		if s.Text() == "" {
@@ -44,21 +30,15 @@ func main() {
 		}
 		var n, from, to int
 		fmt.Sscanf(s.Text(), "move %d from %d to %d", &n, &from, &to)
-		fmt.Printf("[%d->%d (%d)]\n", from, to, n)
 		for i := 0; i < n; i++ {
 			stacks[to-1].Push(stacks[from-1].Pop())
 		}
 	}
 
 	for _, stack := range stacks {
-		fmt.Println(stack.String())
+		fmt.Printf("%c", stack.Pop())
 	}
-
-	var sb strings.Builder
-	for _, stack := range stacks {
-		fmt.Fprintf(&sb, "%c", stack.Pop())
-	}
-	fmt.Println(sb.String())
+	fmt.Println()
 }
 
 func parseStacks(s *bufio.Scanner) []Stack {
@@ -71,7 +51,6 @@ func parseStacks(s *bufio.Scanner) []Stack {
 		// Read 4 runes at a time.
 		for n, m, column := 0, 3, 0; m <= len(line); {
 			var symbol = line[n:m]
-			fmt.Printf("%d -> symbol '%s'\n", column+1, symbol)
 			switch symbol[0] {
 			case ' ':
 				if symbol[1] == '1' {
