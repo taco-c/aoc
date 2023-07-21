@@ -6,15 +6,17 @@ import (
 	"os"
 )
 
+const size = 14
+
 func main() {
 	var s = bufio.NewScanner(os.Stdin)
 	s.Split(bufio.ScanRunes)
 
 	var window []rune
 	for i := 1; s.Scan(); i++ {
-		shiftDown(&window, rune(s.Bytes()[0]), 14)
+		shiftDown(&window, rune(s.Bytes()[0]), size)
 
-		if i > 3 && allDifferent(&window) {
+		if i > size && allDifferent(&window) {
 			fmt.Println(i)
 			break
 		}
@@ -22,7 +24,7 @@ func main() {
 }
 
 func shiftDown(arr *[]rune, r rune, size int) {
-	if len(*arr) < 14 {
+	if len(*arr) < size {
 		*arr = append(*arr, r)
 		return
 	}
