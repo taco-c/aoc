@@ -15,6 +15,7 @@ func main() {
 	var window []rune
 	for i := 1; s.Scan(); i++ {
 		shiftDown(&window, rune(s.Bytes()[0]), size)
+		fmt.Printf("window: %c\n", window)
 
 		if i > size && allDifferent(&window) {
 			fmt.Println(i)
@@ -24,14 +25,10 @@ func main() {
 }
 
 func shiftDown(arr *[]rune, r rune, size int) {
-	if len(*arr) < size {
-		*arr = append(*arr, r)
-		return
+	*arr = append(*arr, r)
+	if len(*arr) > size {
+		*arr = (*arr)[1:]
 	}
-	for i := 1; i < len(*arr); i++ {
-		(*arr)[i-1] = (*arr)[i]
-	}
-	(*arr)[len(*arr)-1] = r
 }
 
 func allDifferent(arr *[]rune) bool {
